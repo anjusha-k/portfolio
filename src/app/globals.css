@@ -1,0 +1,1207 @@
+/* ==========================================================
+   Colours: each page has its own palette, in a light and a dark
+   version. <html data-mode> picks the version; <div class="frame"
+   data-theme> picks the page.
+     Home     Powder & charcoal
+     Work     Blush & charcoal
+     About    Mint & charcoal
+     Writing  Peach & charcoal
+
+   --line  outlines, buttons, links
+   --fill  offset fills, stripes, menu background
+   --dot   the full stops and small rules
+   ========================================================== */
+.frame {
+  --gutter: clamp(16px, 4vw, 40px);
+  --edge: 14px;
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --glow: none;
+
+  /* Home — light: powder blue */
+  --bg: #c3dcf2;
+  --raise: #ffffff;
+  --text: #0f1b4d;
+  --muted: color-mix(in srgb, #0f1b4d 72%, #c3dcf2);
+  --line: #3b2bb5;
+  --fill: #8cb9e3;
+  --dot: #e4572e;
+  --edge-colour: #ffffff;
+  --curtain: var(--fill);
+  --on-fill: #0f1b4d;
+  --menu-hover: #ffffff;
+}
+
+/* Home — dark: charcoal */
+[data-mode="dark"] .frame {
+  --bg: #141922;
+  --raise: color-mix(in srgb, #141922 88%, #ffffff);
+  --text: #eef2f8;
+  --muted: color-mix(in srgb, #eef2f8 72%, #141922);
+  --line: #8ab4ff;
+  --fill: #27374f;
+  --dot: #7ee8f5;
+  --edge-colour: color-mix(in srgb, #141922 55%, #000000);
+  --curtain: var(--fill);
+  --on-fill: #eef2f8;
+  --menu-hover: #7ee8f5;
+}
+
+/* Work — Blush & charcoal */
+.frame[data-theme="work"] {
+  --bg: #f2cfdc;
+  --text: #3a1030;
+  --muted: color-mix(in srgb, #3a1030 72%, #f2cfdc);
+  --line: #a3206e;
+  --fill: #e59bbb;
+  --dot: #2b6cb0;
+  --on-fill: #3a1030;
+}
+[data-mode="dark"] .frame[data-theme="work"] {
+  --bg: #1a161b;
+  --raise: color-mix(in srgb, #1a161b 88%, #ffffff);
+  --text: #f7eef3;
+  --muted: color-mix(in srgb, #f7eef3 72%, #1a161b);
+  --line: #f5a3c7;
+  --fill: #4a2a3d;
+  --dot: #ffd166;
+  --on-fill: #f7eef3;
+  --menu-hover: #ffd166;
+}
+/* About — Mint & charcoal */
+.frame[data-theme="about"] {
+  --bg: #c9ecd9;
+  --text: #0f3b2c;
+  --muted: color-mix(in srgb, #0f3b2c 72%, #c9ecd9);
+  --line: #2f4bb5;
+  --fill: #8fd3b1;
+  --dot: #e4572e;
+  --on-fill: #0f3b2c;
+}
+[data-mode="dark"] .frame[data-theme="about"] {
+  --bg: #141c19;
+  --raise: color-mix(in srgb, #141c19 88%, #ffffff);
+  --text: #eef6f2;
+  --muted: color-mix(in srgb, #eef6f2 72%, #141c19);
+  --line: #7fe0b5;
+  --fill: #234638;
+  --dot: #ffd166;
+  --on-fill: #eef6f2;
+  --menu-hover: #ffd166;
+}
+/* Writing — Peach & charcoal */
+.frame[data-theme="writing"] {
+  --bg: #f8dcc4;
+  --text: #3a2213;
+  --muted: color-mix(in srgb, #3a2213 72%, #f8dcc4);
+  --line: #c2410c;
+  --fill: #f0b88d;
+  --dot: #2563eb;
+  --on-fill: #3a2213;
+}
+[data-mode="dark"] .frame[data-theme="writing"] {
+  --bg: #1b1714;
+  --raise: color-mix(in srgb, #1b1714 88%, #ffffff);
+  --text: #f8f1ea;
+  --muted: color-mix(in srgb, #f8f1ea 72%, #1b1714);
+  --line: #ffb385;
+  --fill: #4a3326;
+  --dot: #7ee8f5;
+  --on-fill: #f8f1ea;
+  --menu-hover: #7ee8f5;
+}
+
+/* ==========================================================
+   Base
+   ========================================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+html.menu-open {
+  overflow: hidden;
+}
+body {
+  margin: 0;
+  background: #000;
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+.frame {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  transition: background-color 0.6s var(--ease), color 0.6s var(--ease);
+  overflow-x: clip;
+}
+/* The thin border that frames the whole screen */
+.frame::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  border: var(--edge) solid var(--edge-colour);
+  transition: border-color 0.6s var(--ease);
+  pointer-events: none;
+  z-index: 70;
+}
+a {
+  color: inherit;
+}
+p a {
+  color: var(--text);
+  text-decoration-color: var(--dot);
+  text-underline-offset: 4px;
+}
+p a:hover {
+  color: var(--dot);
+}
+strong {
+  color: var(--text);
+  font-weight: 700;
+}
+p {
+  margin: 0 0 1.2em;
+  color: color-mix(in srgb, var(--text) 82%, var(--bg));
+}
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+::selection {
+  background: var(--line);
+  color: var(--bg);
+}
+:focus-visible {
+  outline: 2px dashed var(--dot);
+  outline-offset: 4px;
+}
+.u-vhide {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.skip-link {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 100;
+  padding: 8px 16px;
+  background: #fff;
+  color: #000;
+  transform: translateY(-200%);
+}
+.skip-link:focus {
+  transform: none;
+}
+.muted {
+  color: var(--muted);
+}
+.nowrap {
+  white-space: nowrap;
+}
+
+.wrap {
+  width: min(1040px, 100% - 2 * var(--gutter) - 2 * var(--edge));
+  margin-inline: auto;
+}
+.narrow {
+  max-width: 34rem;
+}
+.section {
+  padding: clamp(72px, 12vw, 140px) 0;
+}
+.eyebrow {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--dot);
+  margin: 0 0 8px;
+}
+
+/* ==========================================================
+   Duotone drawing style: an offset colour fill + an outline
+   ========================================================== */
+.duotone__fill {
+  fill: var(--fill);
+  transition: transform 0.35s var(--ease);
+}
+.duotone__line {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 3;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+.stripes {
+  background-image: repeating-linear-gradient(-45deg, var(--fill) 0 2px, transparent 2px 8px);
+}
+.dots {
+  background-image: radial-gradient(var(--fill) 1.6px, transparent 2px);
+  background-size: 11px 11px;
+}
+
+/* ==========================================================
+   Header: logo · MENU on the left, HIRE ME on the right
+   ========================================================== */
+.site-header {
+  position: fixed;
+  top: var(--edge);
+  left: var(--edge);
+  right: var(--edge);
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px calc(var(--gutter) - 4px);
+  pointer-events: none;
+}
+.site-header > * {
+  pointer-events: auto;
+}
+.site-header__left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.site-header__logo {
+  display: block;
+  line-height: 0;
+}
+.logo {
+  width: 64px;
+  height: auto;
+  overflow: visible;
+  filter: var(--glow);
+}
+.logo__fill {
+  transform: translate(-4px, -2px);
+}
+.site-header__logo:hover .logo__fill,
+.site-header__logo:focus-visible .logo__fill {
+  transform: translate(2px, 2px);
+}
+.menu-trigger {
+  position: relative;
+  border: 0;
+  background: none;
+  color: var(--text);
+  cursor: pointer;
+  padding: 6px 0 6px 20px;
+  font: 700 0.75rem/1 var(--font-sans), sans-serif;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+}
+.menu-trigger::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: -4px;
+  bottom: -4px;
+  width: 1px;
+  background: var(--muted);
+}
+.menu-trigger__label {
+  display: inline-block;
+  transition: color 0.2s;
+}
+.menu-trigger:hover .menu-trigger__label {
+  color: var(--dot);
+}
+.site-header__right {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+.mode-toggle {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.mode-toggle svg {
+  overflow: visible;
+  transition: transform 0.5s var(--ease);
+}
+.mode-toggle:hover svg {
+  transform: rotate(-20deg) scale(1.08);
+}
+.mode-toggle .duotone__fill {
+  transform: translate(-2px, -2px);
+}
+.mode-toggle:hover .duotone__fill {
+  transform: translate(1px, 1px);
+}
+/* Before the mode is known (server render) show nothing; then show the matching icon */
+.mode-toggle__sun,
+.mode-toggle__moon {
+  display: none;
+}
+.mode-toggle[data-mode="light"] .mode-toggle__sun,
+.mode-toggle[data-mode="dark"] .mode-toggle__moon {
+  display: inline;
+}
+.hire-me {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  font: 700 0.75rem/1 var(--font-sans), sans-serif;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+}
+.hire-me svg {
+  overflow: visible;
+}
+.hire-me .duotone__fill {
+  transform: translate(-3px, -3px);
+}
+.hire-me:hover .duotone__fill {
+  transform: translate(1px, 1px);
+}
+.hire-me:hover span {
+  color: var(--dot);
+}
+
+/* ==========================================================
+   Full-screen menu
+   ========================================================== */
+.menu {
+  position: fixed;
+  inset: var(--edge);
+  z-index: 50;
+  background: var(--fill);
+  overflow-y: auto;
+  clip-path: inset(0 0 100% 0);
+  visibility: hidden;
+  transition: clip-path 0.6s var(--ease), visibility 0s 0.6s;
+}
+.menu.is-open {
+  clip-path: inset(0 0 0 0);
+  visibility: visible;
+  transition: clip-path 0.6s var(--ease), visibility 0s;
+}
+.menu__inner {
+  padding: 120px calc(var(--gutter) - 4px) 48px;
+}
+.menu__socials {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  margin-bottom: 40px;
+}
+.menu__rule {
+  width: 64px;
+  height: 2px;
+  background: var(--line);
+  margin-right: 6px;
+}
+.menu__socials a {
+  display: grid;
+  place-items: center;
+  color: var(--on-fill);
+  transition: color 0.2s, transform 0.2s;
+}
+.menu__socials a:hover {
+  color: var(--menu-hover);
+  transform: translateY(-2px);
+}
+.menu__pages li {
+  display: grid;
+  grid-template-columns: minmax(200px, 300px) 1fr;
+  align-items: baseline;
+  padding: 10px 0;
+}
+.menu__link {
+  font: 700 clamp(2.4rem, 5vw, 3.6rem) / 1.2 var(--font-serif), serif;
+  color: var(--on-fill);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.menu__link:hover,
+.menu__link:focus-visible {
+  color: var(--menu-hover);
+}
+.menu__link[aria-current="page"] {
+  text-decoration: underline;
+  text-decoration-color: var(--line);
+  text-decoration-thickness: 3px;
+  text-underline-offset: 10px;
+}
+.menu__blurb {
+  color: color-mix(in srgb, var(--on-fill) 80%, transparent);
+  font-size: 1rem;
+}
+/* Staggered entrance for the icons and links */
+.menu__socials li,
+.menu__pages li {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.4s, transform 0.4s var(--ease);
+}
+.menu.is-open .menu__socials li,
+.menu.is-open .menu__pages li {
+  opacity: 1;
+  transform: none;
+  transition-delay: calc(0.25s + var(--i, 0) * 0.07s);
+}
+.menu.is-open .menu__pages li {
+  transition-delay: calc(0.35s + var(--i, 0) * 0.09s);
+}
+
+/* ==========================================================
+   Left rail and scroll hint
+   ========================================================== */
+.side-rail {
+  position: fixed;
+  left: calc(var(--edge) + 18px);
+  bottom: 90px;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  font-size: 0.68rem;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  opacity: 0.8;
+}
+.side-rail span {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+.side-rail::after {
+  content: "";
+  width: 1px;
+  height: 22px;
+  background: var(--muted);
+}
+.scroll-hint {
+  position: absolute;
+  bottom: 0;
+  left: clamp(0px, 16%, 180px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  font-size: 0.7rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.scroll-hint::after {
+  content: "";
+  width: 1px;
+  height: clamp(90px, 20vh, 200px);
+  background: linear-gradient(var(--muted), var(--muted)) top / 1px 0 no-repeat,
+    color-mix(in srgb, var(--muted) 35%, transparent);
+  animation: scroll-line 2.4s var(--ease) infinite;
+}
+@keyframes scroll-line {
+  0% {
+    background-size: 1px 0;
+    background-position: top;
+  }
+  50% {
+    background-size: 1px 100%;
+    background-position: top;
+  }
+  51% {
+    background-position: bottom;
+  }
+  100% {
+    background-size: 1px 0;
+    background-position: bottom;
+  }
+}
+
+/* ==========================================================
+   Headings and buttons
+   ========================================================== */
+.title {
+  font-family: var(--font-serif), serif;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  margin: 0 0 28px;
+  color: var(--text);
+}
+.title--h1 {
+  font-size: clamp(2.8rem, 6vw, 4.4rem);
+}
+.title--h2 {
+  font-size: clamp(2.1rem, 4vw, 3rem);
+}
+.title--h3 {
+  font-size: clamp(1.7rem, 3vw, 2.2rem);
+  margin-bottom: 16px;
+}
+.title__dot {
+  color: var(--dot);
+}
+.title--rule::after {
+  content: "";
+  display: block;
+  width: 52px;
+  height: 2px;
+  margin-top: 24px;
+  background: var(--dot);
+}
+
+/* Outlined button with a striped shadow peeking out behind it.
+   Layers, back to front: stripes (::before), solid face with the outline (::after), label. */
+.button {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 200px;
+  padding: 14px 38px;
+  margin-top: 12px;
+  color: var(--line);
+  font-weight: 700;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: transform 0.25s var(--ease), color 0.2s;
+}
+.button::before,
+.button::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 6px;
+}
+.button::before {
+  z-index: -2;
+  background-image: repeating-linear-gradient(-45deg, var(--fill) 0 2px, transparent 2px 7px);
+  transform: translate(7px, 7px);
+  transition: transform 0.25s var(--ease);
+}
+.button::after {
+  z-index: -1;
+  border: 2.5px solid var(--line);
+  background: var(--bg);
+  transition: background-color 0.2s;
+}
+.button:hover {
+  transform: translate(-2px, -2px);
+  color: var(--text);
+}
+.button:hover::before {
+  transform: translate(10px, 10px);
+}
+.button:active {
+  transform: translate(2px, 2px);
+}
+.button:active::before {
+  transform: translate(3px, 3px);
+}
+
+/* ==========================================================
+   Home hero
+   ========================================================== */
+/* The portrait is the star of the first screen, like the reference:
+   big, on the right half, framed by a circle of stripes. */
+.hero {
+  position: relative;
+  width: min(1280px, 100% - 2 * var(--gutter) - 2 * var(--edge));
+  min-height: 100svh;
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  align-items: center;
+  /* Room between her name and the stripe circle */
+  column-gap: clamp(40px, 6vw, 96px);
+  padding: 110px 0 120px;
+}
+.hero__text {
+  position: relative;
+}
+
+
+.hero__title {
+  font: 400 clamp(2.8rem, 6vw, 5.2rem) / 1.04 var(--font-serif), serif;
+  margin: 0 0 28px;
+  letter-spacing: -0.015em;
+}
+.hero__title strong {
+  font-weight: 700;
+}
+.hero__lead {
+  font: 400 clamp(1.15rem, 1.7vw, 1.4rem) / 1.6 var(--font-serif), serif;
+  max-width: 24ch;
+  color: var(--text);
+}
+
+.portrait {
+  /* Light mode: the portrait uses the page's own colours */
+  --pt-knock: var(--bg);
+  --pt-fill: var(--fill);
+  --pt-line: var(--line);
+  position: relative;
+  z-index: 1;
+  width: 90%;
+  max-width: 600px;
+  justify-self: end;
+}
+/* Dark mode: keep the illustration in its light inks, like a print on charcoal */
+[data-mode="dark"] .portrait {
+  --pt-knock: #dce8f7;
+  --pt-fill: #8cb9e3;
+  --pt-line: #3b2bb5;
+}
+.portrait__band {
+  /* The stripes are only a backdrop: a circle behind her head and shoulders,
+     kept inside the portrait column so they never run under the heading. */
+  position: absolute;
+  z-index: -1;
+  left: -4%;
+  right: -4%;
+  top: 0;
+  /* margin % is measured from the width, so the circle sits the same
+     whatever the picture's height. The dress in the picture is cut to
+     this exact circle (see scripts/split_portrait.py). */
+  margin-top: -4%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    color-mix(in srgb, var(--line) 45%, transparent) 0 2px,
+    transparent 2px 9px
+  );
+}
+.portrait__art {
+  position: relative;
+  /* The picture's own shape: square, plus the dress running down to the circle */
+  aspect-ratio: 1278 / 1332;
+  transform-origin: 50% 85%;
+  transition: transform 0.3s ease-out;
+}
+.portrait__layer {
+  position: absolute;
+  inset: 0;
+  -webkit-mask: var(--mask) center / contain no-repeat;
+  mask: var(--mask) center / contain no-repeat;
+}
+.portrait__knock {
+  --mask: url("/portrait/knock.png");
+  background: var(--pt-knock);
+}
+.portrait__fill {
+  --mask: url("/portrait/fill.png");
+  background: var(--pt-fill);
+  transition: transform 0.3s ease-out;
+}
+.portrait__line {
+  --mask: url("/portrait/line.png");
+  background: var(--pt-line);
+}
+
+/* ==========================================================
+   Inner page intro
+   ========================================================== */
+.page-intro {
+  position: relative;
+  min-height: 92svh;
+  padding: 200px 0 240px;
+}
+.lead {
+  max-width: 36rem;
+}
+.lead p {
+  font: 400 clamp(1.1rem, 1.6vw, 1.3rem) / 1.7 var(--font-serif), serif;
+  color: var(--text);
+}
+
+/* ==========================================================
+   Feature rows (illustration + text)
+   ========================================================== */
+.split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: start;
+}
+.pattern-block {
+  height: 110px;
+  margin-top: 8px;
+  opacity: 0.9;
+}
+.features {
+  margin-top: 56px;
+}
+.feature {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: clamp(32px, 6vw, 80px);
+  align-items: center;
+  padding: 56px 0;
+}
+.feature + .feature {
+  border-top: 1px solid color-mix(in srgb, var(--muted) 30%, transparent);
+}
+.feature__art {
+  width: 100%;
+  max-width: 290px;
+  justify-self: center;
+}
+.anchor {
+  position: absolute;
+  top: -100px;
+}
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+.chips li {
+  padding: 4px 14px;
+  border: 1.5px solid color-mix(in srgb, var(--line) 50%, transparent);
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: background 0.2s, color 0.2s;
+}
+.chips li:hover {
+  background: var(--line);
+  color: var(--bg);
+}
+
+/* Live project links: Google Play, App Store, Website */
+.project-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 22px;
+  margin: 4px 0 24px;
+}
+.project-links a {
+  font-weight: 600;
+  color: var(--line);
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 4px;
+}
+.project-links a:hover {
+  color: var(--text);
+}
+
+/* Line drawings: outline draws in, then the fill fades in behind */
+.art {
+  overflow: visible;
+  filter: var(--glow);
+}
+.art__line {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 1.3s var(--ease) calc(var(--i) * 0.14s);
+}
+.art__fill,
+.art__dots {
+  fill: var(--fill);
+  opacity: 0;
+  transition: opacity 0.8s ease 0.9s;
+}
+.art__dot {
+  fill: var(--dot);
+}
+.art.is-drawn .art__line {
+  stroke-dashoffset: 0;
+}
+.art.is-drawn .art__fill {
+  opacity: 1;
+}
+.art.is-drawn .art__dots {
+  opacity: 0.55;
+}
+
+/* ==========================================================
+   Work: timeline and tools
+   ========================================================== */
+.timeline {
+  position: relative;
+  margin-top: 48px;
+}
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 9px;
+  top: 10px;
+  bottom: 10px;
+  width: 2px;
+  background: linear-gradient(var(--line), var(--dot));
+}
+.job {
+  position: relative;
+  padding: 0 0 56px 52px;
+}
+.job:last-child {
+  padding-bottom: 0;
+}
+.job::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 6px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 2.5px solid var(--line);
+  box-shadow: 3px 3px 0 var(--fill);
+}
+.job__title {
+  font: 700 clamp(1.4rem, 2.6vw, 1.9rem) / 1.25 var(--font-serif), serif;
+  margin: 0 0 12px;
+}
+.job__title em {
+  font-style: normal;
+  font-weight: 400;
+  color: var(--line);
+}
+.job__points li {
+  position: relative;
+  padding-left: 22px;
+  margin-bottom: 8px;
+  max-width: 68ch;
+  color: color-mix(in srgb, var(--text) 82%, var(--bg));
+}
+.job__points li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.8em;
+  width: 10px;
+  height: 2px;
+  background: var(--dot);
+}
+.skill-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px 56px;
+  margin-top: 40px;
+}
+
+/* ==========================================================
+   About: story, numbers, hobbies, awards
+   ========================================================== */
+.story {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(32px, 6vw, 80px);
+  align-items: center;
+}
+.story__art {
+  width: 100%;
+  max-width: 420px;
+  justify-self: center;
+}
+.stats,
+.hobbies {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-top: 40px;
+}
+.stat,
+.hobby {
+  padding: 26px 24px;
+  border: 2px solid color-mix(in srgb, var(--line) 35%, transparent);
+  border-radius: 8px;
+  background: var(--raise);
+  transition: transform 0.3s var(--ease), border-color 0.3s, box-shadow 0.3s var(--ease);
+}
+.stat:hover,
+.hobby:hover {
+  transform: translate(-3px, -3px);
+  border-color: var(--line);
+  box-shadow: 7px 7px 0 var(--fill);
+}
+.stat b {
+  display: block;
+  font: 700 2.6rem/1 var(--font-serif), serif;
+  color: var(--line);
+  margin-bottom: 10px;
+}
+.stat span,
+.hobby span,
+.award span {
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+.hobby b,
+.award b {
+  display: block;
+  font: 700 1.25rem/1.3 var(--font-serif), serif;
+  margin-bottom: 4px;
+}
+.awards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 40px;
+}
+.award {
+  padding: 22px 24px;
+  border-left: 3px solid var(--dot);
+  background: var(--raise);
+  border-radius: 0 8px 8px 0;
+}
+
+/* ==========================================================
+   Writing list
+   ========================================================== */
+.articles {
+  margin: 32px 0 40px;
+}
+.article {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 32px;
+  padding: 36px 0;
+}
+.article + .article {
+  border-top: 1px solid color-mix(in srgb, var(--muted) 30%, transparent);
+}
+.article__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 8px;
+}
+.article__meta time {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: var(--dot);
+}
+.article__meta time::after {
+  content: "";
+  width: 40px;
+  height: 2px;
+  background: var(--dot);
+}
+.article__source {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+.article__title {
+  font: 700 clamp(1.3rem, 2.2vw, 1.65rem) / 1.3 var(--font-serif), serif;
+  margin: 0 0 10px;
+}
+.article__title a {
+  text-decoration: none;
+  background: linear-gradient(var(--line), var(--line)) left bottom / 0 2px no-repeat;
+  transition: background-size 0.35s var(--ease), color 0.2s;
+}
+.article__title a:hover {
+  color: var(--line);
+  background-size: 100% 2px;
+}
+.article__summary {
+  font-size: 0.95rem;
+  margin: 0;
+  color: var(--muted);
+}
+
+/* ==========================================================
+   Say hello
+   ========================================================== */
+.say-hello {
+  padding: 80px 0 160px;
+  text-align: center;
+}
+.say-hello .title--rule::after {
+  margin-inline: auto;
+}
+.say-hello .lead {
+  max-width: 30rem;
+  margin: 0 auto 12px;
+}
+
+/* ==========================================================
+   Motion: scroll reveal and page-to-page curtain
+   ========================================================== */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.9s var(--ease) var(--delay, 0ms), transform 0.9s var(--ease) var(--delay, 0ms);
+}
+.reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+@media (scripting: none) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+  .art__line {
+    stroke-dashoffset: 0;
+  }
+  .art__fill {
+    opacity: 1;
+  }
+}
+
+.curtain {
+  position: fixed;
+  inset: 0;
+  z-index: 65;
+  background: var(--curtain);
+  pointer-events: none;
+  animation: curtain-up 0.85s var(--ease) 0.1s forwards;
+}
+.curtain::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 6px;
+  background: var(--line);
+}
+@keyframes curtain-up {
+  to {
+    transform: translateY(-101%);
+  }
+}
+.page {
+  animation: page-in 0.9s var(--ease) 0.35s both;
+}
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+}
+
+/* ==========================================================
+   Smaller screens
+   ========================================================== */
+@media (max-width: 900px) {
+  .frame {
+    --edge: 8px;
+  }
+  .side-rail {
+    display: none;
+  }
+  .site-header {
+    padding: 16px 12px;
+    background: color-mix(in srgb, var(--bg) 85%, transparent);
+    backdrop-filter: blur(8px);
+  }
+  .hire-me span {
+    display: none;
+  }
+  .site-header__right {
+    gap: 12px;
+  }
+  .logo {
+    width: 52px;
+  }
+  .hero {
+    grid-template-columns: 1fr;
+    padding: 120px 0 80px;
+    min-height: auto;
+  }
+  .portrait {
+    order: -1;
+    max-width: 380px;
+    justify-self: center;
+  }
+  .scroll-hint {
+    display: none;
+  }
+  .page-intro {
+    min-height: auto;
+    padding: 140px 0 40px;
+  }
+  .split,
+  .feature,
+  .story,
+  .skill-grid {
+    grid-template-columns: 1fr;
+  }
+  .feature__art {
+    max-width: 220px;
+    justify-self: start;
+  }
+  .pattern-block {
+    display: none;
+  }
+  .stats,
+  .hobbies {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .awards {
+    grid-template-columns: 1fr;
+  }
+  .article {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .menu__inner {
+    padding-top: 100px;
+  }
+  .menu__pages li {
+    grid-template-columns: 1fr;
+    padding: 8px 0;
+  }
+  .menu__socials {
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .menu__rule {
+    width: 32px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+  .curtain {
+    display: none;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+  .art__line {
+    stroke-dashoffset: 0;
+  }
+  .art__fill {
+    opacity: 1;
+  }
+}
