@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Bitter, Inter } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import { Header } from "@/components/Header";
 import { SideRail } from "@/components/Bits";
 import { modeScript } from "@/components/ModeToggle";
@@ -35,6 +36,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <SideRail />
           {children}
         </ThemeFrame>
+        <Analytics />
       </body>
     </html>
   );

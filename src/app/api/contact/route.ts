@@ -4,7 +4,7 @@ import { validateContact, type ContactMessage } from "@/lib/contact";
 const RESEND_ENDPOINT = "https://api.resend.com/emails";
 const DEFAULT_TO = "anjusha.khandavalli@gmail.com";
 // Must be on a domain verified in Resend.
-const DEFAULT_FROM = "portfolio@thewanderlustgirldiary.com";
+const DEFAULT_FROM = "hello@anjusha.dev";
 
 const LIMIT = 5;
 const WINDOW_MS = 60 * 60 * 1_000;
@@ -128,8 +128,9 @@ export async function POST(request: Request) {
     method: "POST",
     headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
     body: JSON.stringify({
-      from: `Anjusha's portfolio <${process.env.CONTACT_FROM_EMAIL || DEFAULT_FROM}>`,
-      to: [process.env.CONTACT_TO_EMAIL || DEFAULT_TO],
+      // CONTACT_FROM holds the full sender, e.g. "Name <hello@anjusha.dev>".
+      from: process.env.CONTACT_FROM || `Anjusha's portfolio <${DEFAULT_FROM}>`,
+      to: [process.env.CONTACT_TO || DEFAULT_TO],
       reply_to: fields.email,
       subject: `${fields.topic}: message from ${fields.name}`,
       html: body.html,
