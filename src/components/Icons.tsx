@@ -21,7 +21,7 @@ export function SocialIcon({ name }: { name: SocialKey }) {
   );
 }
 
-/** Speech bubble used by the "Hire me" link, drawn in the duotone style. */
+/** Speech bubble used by the "Work with me" link, drawn in the duotone style. */
 export function BubbleIcon() {
   return (
     <svg viewBox="0 0 32 30" width="30" height="28" aria-hidden="true" className="duotone">

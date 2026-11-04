@@ -23,9 +23,15 @@ export function MenuOverlay({ open, pages, current }: Props) {
           <li className="menu__rule" aria-hidden="true" />
           {socials.map((s, i) => (
             <li key={s.key} style={{ "--i": i } as React.CSSProperties}>
-              <a href={s.href} aria-label={s.label} target={s.key === "email" ? undefined : "_blank"} rel="noreferrer">
-                <SocialIcon name={s.key} />
-              </a>
+              {s.key === "email" ? (
+                <Link href={s.href} aria-label={s.label}>
+                  <SocialIcon name={s.key} />
+                </Link>
+              ) : (
+                <a href={s.href} aria-label={s.label} target="_blank" rel="noreferrer">
+                  <SocialIcon name={s.key} />
+                </a>
+              )}
             </li>
           ))}
         </ul>

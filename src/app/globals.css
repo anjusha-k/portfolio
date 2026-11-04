@@ -365,6 +365,7 @@ ol {
   font: 700 0.75rem/1 var(--font-sans), sans-serif;
   letter-spacing: 0.32em;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 .hire-me svg {
   overflow: visible;
@@ -1042,6 +1043,73 @@ ol {
 .say-hello .lead {
   max-width: 30rem;
   margin: 0 auto 12px;
+}
+.say-hello {
+  scroll-margin-top: 80px;
+}
+
+/* Contact form (sends through /api/contact) */
+.contact-form {
+  display: grid;
+  gap: 18px;
+  max-width: 36rem;
+  margin: 32px auto 0;
+  text-align: left;
+}
+.contact-form__row {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+}
+.contact-form__field {
+  display: grid;
+  gap: 6px;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+.contact-form__field input,
+.contact-form__field select,
+.contact-form__field textarea {
+  width: 100%;
+  min-width: 0;
+  padding: 12px 14px;
+  font: inherit;
+  font-weight: 400;
+  color: var(--text);
+  background: var(--bg);
+  border: 2.5px solid var(--line);
+  border-radius: 0;
+}
+.contact-form__field textarea {
+  resize: vertical;
+  min-height: 8rem;
+}
+.contact-form__field :focus-visible {
+  outline: 3px solid var(--dot);
+  outline-offset: 2px;
+}
+.contact-form .button {
+  justify-self: center;
+  margin-top: 8px;
+  font-family: inherit;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.contact-form .button:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+.contact-form__status {
+  min-height: 1.5em;
+  margin: 0;
+  text-align: center;
+  color: var(--dot);
+  font-weight: 600;
+}
+.contact-form__done {
+  margin: 32px auto 0;
+  font-weight: 600;
 }
 
 /* ==========================================================

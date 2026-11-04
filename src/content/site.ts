@@ -5,8 +5,6 @@ export const person = {
   fullName: "Anjusha Khandavalli",
   role: "front-end developer",
   city: "Sydney, Australia",
-  email: "anjusha.khandavalli@gmail.com",
-  hireSubject: "👋 Hi Anjusha, I'd like to talk to you about a role",
   // Shown on the thin rail at the left edge, like the reference site.
   rail: "© MMXXVI. Made in Sydney.",
 };
@@ -18,7 +16,7 @@ export const socials: { key: SocialKey; label: string; href: string }[] = [
   { key: "linkedin", label: "Connect on LinkedIn", href: "https://www.linkedin.com/in/anjusha-khandavalli/" },
   { key: "devto", label: "Read me on DEV", href: "https://dev.to/anjushakhandavalli" },
   { key: "medium", label: "Read me on Medium", href: "https://medium.com/@anjusha.khandavalli" },
-  { key: "email", label: "Send me an email", href: `mailto:${person.email}` },
+  { key: "email", label: "Send me a message", href: "/#contact" },
 ];
 
 export const pages = [

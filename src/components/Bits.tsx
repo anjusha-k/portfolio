@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { person, type ProjectLink } from "@/content/site";
+import { ContactForm } from "./ContactForm";
 import { Reveal } from "./Reveal";
 
 /** Heading with the coloured full stop and short rule underneath. */
@@ -22,7 +23,7 @@ export function Title({
 
 /** Outlined button with the striped shadow. */
 export function Button({ href, children }: { href: string; children: React.ReactNode }) {
-  const external = /^(https?:|mailto:)/.test(href);
+  const external = /^https?:/.test(href);
   if (external) {
     return (
       <a className="button" href={href} target={href.startsWith("http") ? "_blank" : undefined} rel="noreferrer">
@@ -69,15 +70,13 @@ export function PageIntro({ title, children }: { title: React.ReactNode; childre
 /** "Say hello." block that closes every page. */
 export function SayHello() {
   return (
-    <section className="say-hello wrap">
+    <section className="say-hello wrap" id="contact">
       <Reveal>
         <Title>Say hello</Title>
         <p className="lead">
-          Looking for a front-end developer, or just want to talk React? My inbox is always open.
+          Looking for a front-end developer, or just want to talk React? Drop me a message here and I&rsquo;ll get back to you.
         </p>
-        <Button href={`mailto:${person.email}?subject=${encodeURIComponent(person.hireSubject)}`}>
-          {person.email}
-        </Button>
+        <ContactForm />
       </Reveal>
     </section>
   );

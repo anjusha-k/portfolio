@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { pages, person, themeFor } from "@/content/site";
+import { pages, themeFor } from "@/content/site";
 import { BubbleIcon } from "./Icons";
 import { Logo } from "./Logo";
 import { MenuOverlay } from "./MenuOverlay";
@@ -49,12 +49,9 @@ export function Header() {
         </div>
         <div className="site-header__right">
           <ModeToggle />
-          <a
-            className="hire-me"
-            href={`mailto:${person.email}?subject=${encodeURIComponent(person.hireSubject)}`}
-          >
+          <a className="hire-me" href="#contact" aria-label="Work with me">
             <BubbleIcon />
-            <span>Hire me</span>
+            <span>Work with me</span>
           </a>
         </div>
       </header>
