@@ -9,14 +9,38 @@ type Status =
   | { kind: "sent"; message: string }
   | { kind: "error"; message: string };
 
-/** Sends through /api/contact (Resend), so no email address is shown on the page. */
+/**
+ * A "Send me a message" button that opens the form. Sends through
+ * /api/contact (Resend), so no email address is shown on the page.
+ * Any link to #contact (e.g. "Work with me") opens it too.
+ */
 export function ContactForm() {
+  const [open, setOpen] = useState(false);
   const [status, setStatus] = useState<Status>({ kind: "idle" });
-  // When the form appeared; the server rejects instant (bot) submits.
+  // When the form was opened; the server rejects instant (bot) submits.
   const startedAt = useRef(0);
+  const firstField = useRef<HTMLInputElement>(null);
+
   useEffect(() => {
-    startedAt.current = Date.now();
+    const openFromLink = (e: MouseEvent) => {
+      const link = (e.target as Element | null)?.closest?.("a[href$='#contact']");
+      if (link) setOpen(true);
+    };
+    // Arriving from another page via /#contact: open after first paint.
+    const frame =
+      window.location.hash === "#contact" ? requestAnimationFrame(() => setOpen(true)) : 0;
+    document.addEventListener("click", openFromLink);
+    return () => {
+      cancelAnimationFrame(frame);
+      document.removeEventListener("click", openFromLink);
+    };
   }, []);
+
+  useEffect(() => {
+    if (!open) return;
+    startedAt.current = Date.now();
+    firstField.current?.focus({ preventScroll: true });
+  }, [open]);
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -50,14 +74,28 @@ export function ContactForm() {
     );
   }
 
+  if (!open) {
+    return (
+      <button
+        type="button"
+        className="button contact-form__open"
+        aria-expanded={false}
+        aria-controls="contact-form"
+        onClick={() => setOpen(true)}
+      >
+        <span>Send me a message</span>
+      </button>
+    );
+  }
+
   const sending = status.kind === "sending";
 
   return (
-    <form className="contact-form" onSubmit={onSubmit}>
+    <form id="contact-form" className="contact-form" onSubmit={onSubmit}>
       <div className="contact-form__row">
         <label className="contact-form__field">
           <span>Name</span>
-          <input name="name" type="text" autoComplete="name" required minLength={2} maxLength={80} />
+          <input ref={firstField} name="name" type="text" autoComplete="name" required minLength={2} maxLength={80} />
         </label>
         <label className="contact-form__field">
           <span>Email</span>

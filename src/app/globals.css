@@ -1088,6 +1088,21 @@ ol {
   outline: 3px solid var(--dot);
   outline-offset: 2px;
 }
+.contact-form__open {
+  font-family: inherit;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.contact-form {
+  animation: contact-open 0.35s var(--ease);
+}
+@keyframes contact-open {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
 .contact-form .button {
   justify-self: center;
   margin-top: 8px;
